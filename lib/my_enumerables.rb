@@ -11,6 +11,13 @@ module Enumerable
     self.my_each { |element|}
   end
 
+  def my_select
+    return to_enum(:my_select) unless block_given?
+    selected = []
+    self.my_each { |element| selected << element if yield(element) }
+    selected
+  end
+
   def my_all?
     return to_enum(:my_all?) unless block_given?
     self.my_each { |element| return false unless yield(element) }
@@ -38,6 +45,15 @@ module Enumerable
 
       index += 1
     end
+  end
+
+  def my_count
+    return my_each.to_a.size unless block_given?
+
+    count = 0
+    self.my_each  { |element| count += 1 if yield(element) }
+
+    return count
   end
 end
 
