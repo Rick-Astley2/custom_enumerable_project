@@ -11,6 +11,12 @@ module Enumerable
     self.my_each { |element|}
   end
 
+  def my_all?
+    return to_enum(:my_all?) unless block_given?
+    self.my_each { |element| return false unless yield(element) }
+    true
+  end
+
   def my_none?
     return to_enum(:my_none?) unless block_given?
     self.my_each { |element| return false if yield(element) }
@@ -18,7 +24,7 @@ module Enumerable
   end
 
   def my_any?
-    return self.to_enum unless block_given?
+    return to_enum(:my_any?) unless block_given?
     self.my_each { |element| return true if yield(element) }
     false
   end
