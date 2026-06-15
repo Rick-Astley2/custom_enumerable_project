@@ -55,6 +55,13 @@ module Enumerable
 
     return count
   end
+
+  def my_inject(initial_value)
+    sum = initial_value
+
+    self.my_each { |element| sum = yield(sum, element)}
+    sum
+  end
 end
 
 # You will first have to define my_each
